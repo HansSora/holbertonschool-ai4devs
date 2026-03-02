@@ -1,45 +1,99 @@
 # Bug Descriptions
 
-This document describes the intended behavior, the bug, and its impact for each buggy code snippet.
+This document describes the intended behavior, bug type, bug details, and consequences for each buggy code snippet.
 
 ---
 
-## Bug 1 – bug1.py
-**Intended Behavior:** Return the last n items of a list.
-**Bug:** Off-by-one error in list slicing. The start index is calculated as `len(items) - n - 1`, which returns one extra item from the end.
-**Impact:** The function returns more items than expected. For example, `get_last_n_items([1,2,3,4,5], 2)` returns `[3,4,5]` instead of `[4,5]`.
+## Bug 1 – `bug1.py`
+
+### Intended Behavior
+The function `get_last_n_items(items, n)` should return the **last `n` elements** of a list. For example, given `[1, 2, 3, 4, 5]` and `n=2`, it should return `[4, 5]`.
+
+### Bug Type
+Off-by-one error (incorrect index calculation in list slicing).
+
+### Bug Description
+The start index is computed as `len(items) - n - 1` instead of the correct `len(items) - n`. The subtraction of an extra `1` shifts the slice one position too far to the left, causing one additional element to be included.
+
+### Consequences
+The function returns `n+1` items instead of `n`. For example, `get_last_n_items([1, 2, 3, 4, 5], 2)` returns `[3, 4, 5]` instead of `[4, 5]`, silently producing wrong results with no error raised.
 
 ---
 
-## Bug 2 – bug2.js
-**Intended Behavior:** Remove duplicate numbers from an array and return them in ascending order.
-**Bug:** Logical error in filtering: the code adds items to the result only if they are already present, instead of if they are not present.
-**Impact:** The function returns only repeated numbers, not unique ones. For example, `removeDuplicates([4,2,4,1,3,2])` returns `[]` instead of `[1,2,3,4]`.
+## Bug 2 – `bug2.js`
+
+### Intended Behavior
+The function `removeDuplicates(numbers)` should filter out duplicate numbers from an array and return the unique values sorted in **ascending order**. For example, `[4, 2, 4, 1, 3, 2]` should return `[1, 2, 3, 4]`.
+
+### Bug Type
+Logical error (inverted condition in duplicate-detection).
+
+### Bug Description
+The condition `if (result.includes(numbers[i]))` adds a number to `result` only when it is **already present**, which is the opposite of the intended behavior. It should use `!result.includes(numbers[i])` to add numbers that have **not yet been seen**.
+
+### Consequences
+All unique (non-duplicate) values are excluded and only numbers that appear more than once are kept — and even those are not added correctly. Most inputs produce an empty array instead of the deduplicated, sorted list.
 
 ---
 
-## Bug 3 – bug3.java
-**Intended Behavior:** Calculate the average length of non-null strings in a list, ignoring null values.
-**Bug:** No null check before calling `str.length()`. If the list contains null, a `NullPointerException` occurs.
-**Impact:** The program crashes if the list contains null values.
+## Bug 3 – `bug3.java`
+
+### Intended Behavior
+The method `calculateAverageLength(List<String> strings)` should compute the **average character length** of all non-null strings in the list, silently skipping any `null` entries.
+
+### Bug Type
+Runtime exception – `NullPointerException`.
+
+### Bug Description
+Inside the loop, `str.length()` is called without first checking whether `str` is `null`. When a `null` element is encountered, the JVM throws a `NullPointerException` and the program terminates.
+
+### Consequences
+The program crashes at runtime whenever the input list contains a `null` value. No average is computed or returned, and the exception is unhandled, making the method unsafe for lists with optional/missing string entries.
 
 ---
 
-## Bug 4 – bug4.py
-**Intended Behavior:** Calculate the sum of all numeric values stored as strings in a dictionary.
-**Bug:** The total is initialized as a string and concatenated with other strings, instead of converting to integers and adding.
-**Impact:** The function returns a string of concatenated numbers (e.g., `"10251530"`) instead of their sum (e.g., `80`).
+## Bug 4 – `bug4.py`
+
+### Intended Behavior
+The function `sum_string_numbers(data)` should parse numeric strings stored as dictionary values and return their **integer sum**. For example, `{"apples": "10", "oranges": "25", "bananas": "15", "grapes": "30"}` should return `80`.
+
+### Bug Type
+Data type misuse (string concatenation instead of integer addition).
+
+### Bug Description
+The accumulator `total` is initialized as the string `"0"` instead of the integer `0`. Inside the loop, `total = total + value` performs **string concatenation** rather than numeric addition, because both operands are strings.
+
+### Consequences
+The function returns a concatenated string (e.g., `"010251530"`) instead of the numeric sum (`80`). The result is silently wrong — no exception is raised — which makes this bug particularly difficult to catch without explicit type checking or test cases.
 
 ---
 
-## Bug 5 – bug5.js
-**Intended Behavior:** Fetch user data from an API and return the user's name in uppercase using async/await.
-**Bug:** Syntax error in async/await usage. The function is not declared as async, and `await` is used incorrectly.
-**Impact:** The code will not run and throws a syntax error.
+## Bug 5 – `bug5.js`
+
+### Intended Behavior
+The function should call a simulated async API to retrieve user data by ID and return the user's name converted to **uppercase**. It relies on `async/await` for asynchronous control flow.
+
+### Bug Type
+Syntax / semantic error (incorrect use of `async`/`await`).
+
+### Bug Description
+The outer function that calls `await fetchUserData(userId)` is not declared with the `async` keyword. Using `await` outside an `async` function is a syntax error in JavaScript, preventing the script from executing at all.
+
+### Consequences
+The script throws a `SyntaxError` at parse time and does not run. No user data is fetched and no name is returned. Any code depending on this function will also fail to execute.
 
 ---
 
-## Bug 6 – bug6.py
-**Intended Behavior:** Find the first pair of consecutive numbers in a list that sum to a target value.
-**Bug:** Loop condition and increment logic can cause an infinite loop. The index variable `i` is only incremented when the sum matches, so if no match is found, the loop never progresses.
-**Impact:** The function may enter an infinite loop and never return if no consecutive pair matches the target sum.
+## Bug 6 – `bug6.py`
+
+### Intended Behavior
+The function should iterate through a list and find the **first pair of consecutive elements** whose sum equals a given target value, returning that pair. If no such pair exists, it should return `None`.
+
+### Bug Type
+Logic error (missing index increment causing an infinite loop).
+
+### Bug Description
+The loop index `i` is only incremented inside the `if` block that checks for a matching pair. When the current pair does **not** match the target, `i` is never incremented, so the loop repeatedly evaluates the same pair forever.
+
+### Consequences
+If no matching consecutive pair exists (or if the first pair checked does not match), the function enters an **infinite loop**, hanging the program indefinitely. This is a critical correctness issue that makes the function unusable for inputs without an early matching pair.
