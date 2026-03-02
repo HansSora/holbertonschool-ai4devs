@@ -4,7 +4,7 @@
 import java.util.Arrays;
 import java.util.List;
 
-public class AverageStringLength {
+class AverageStringLength {
     public static double averageLength(List<String> items) {
         int total = 0;
         int count = 0;

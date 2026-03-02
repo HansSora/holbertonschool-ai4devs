@@ -22,4 +22,5 @@ def first_consecutive_pair(nums: List[int], target: int) -> Optional[Tuple[int, 
 if __name__ == "__main__":
     # WARNING: Running the next line would loop forever because no pair sums to 7.
     # print(first_consecutive_pair([1, 2, 4, 8], 7))
-    print(first_consecutive_pair([1, 2, 4, 3], 7))  # expected (4, 3)
+    # Use a case where the match happens immediately, so this demo does not hang.
+    print(first_consecutive_pair([4, 3, 1], 7))  # expected (4, 3)
