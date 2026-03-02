@@ -33,19 +33,3 @@ This document describes the intended behavior of each buggy code snippet and the
 **Issue Type**: Misuse of data types.  
 **Language**: Python  
 **Notes**: The function initializes `total` as a string `"0"` instead of an integer, and uses string concatenation (`total + value`) instead of numeric addition. This causes the result to be a concatenated string like `"010251530"` instead of the sum `80`. The values should be converted to integers using `int(value)` and added numerically.
-
----
-
-## Bug 5 – bug5.js
-**Intended Behavior**: Fetch user data from an API asynchronously and return the user's name in uppercase.  
-**Issue Type**: Syntax error.  
-**Language**: JavaScript  
-**Notes**: The function `getUserName` uses the `await` keyword but is not declared as `async`. In JavaScript, `await` can only be used inside `async` functions. The function declaration should be `async function getUserName(userId)`. Without the `async` keyword, this code will throw a syntax error.
-
----
-
-## Bug 6 – bug6.py
-**Intended Behavior**: Find the first pair of consecutive numbers in a list that sum to a target value.  
-**Issue Type**: Loop logic issue (infinite loop).  
-**Language**: Python  
-**Notes**: The loop has a critical flaw in its increment logic. When the sum doesn't match the target, it uses `continue` which jumps back to the while condition without incrementing `i`. This creates an infinite loop because `i` never advances. The `i += 1` statement should be placed outside the conditional checks, or the `continue` statement should be replaced with proper increment logic.

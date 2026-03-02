@@ -5,15 +5,6 @@ where the values are numbers stored as strings.
 """
 
 def sum_string_numbers(data):
-    """
-    Sums all numeric string values in a dictionary.
-    
-    Args:
-        data: Dictionary with string values representing numbers
-        
-    Returns:
-        Total sum of all numeric values
-    """
     total = "0"  # Bug: Using string instead of int
     
     for key, value in data.items():
@@ -22,9 +13,6 @@ def sum_string_numbers(data):
             total = total + value
     
     return total
-
-
-# Test cases
 inventory = {
     "apples": "10",
     "oranges": "25",

@@ -15,8 +15,7 @@ def find_consecutive_pair(numbers, target):
     Returns:
         Tuple of (index, value1, value2) or None if not found
     """
-    i = 0
-    
+    i = 0 
     # Bug: Loop condition and increment logic can cause infinite loop
     while i < len(numbers):
         if i + 1 < len(numbers):
@@ -33,12 +32,7 @@ def find_consecutive_pair(numbers, target):
             i += 1
     
     return None
-
-
-# Test cases
 test_numbers = [1, 3, 5, 7, 9, 11]
 print("Find pair summing to 12:", find_consecutive_pair(test_numbers, 12))
-# Expected: (2, 5, 7)
 
 print("Find pair summing to 20:", find_consecutive_pair(test_numbers, 20))
-# Expected: (4, 9, 11)

@@ -34,8 +34,6 @@ public class bug3 {
         words.add("world");
         words.add(null);  // This will cause NullPointerException
         words.add("test");
-        
         System.out.println("Average length: " + calculateAverageLength(words));
-        // Expected: 4.67 (ignoring null)
     }
 }
