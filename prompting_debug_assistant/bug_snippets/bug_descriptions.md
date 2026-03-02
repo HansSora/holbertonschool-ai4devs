@@ -1,4 +1,3 @@
-
 # Bug Descriptions
 
 ## Bug 1 – bug1.py

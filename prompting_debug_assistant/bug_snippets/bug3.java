@@ -1,41 +1,26 @@
-/**
- ## Bug 3 – bug3.java
-**Intended Behavior**: Calculate the average length of all non-null strings in a list, skipping any null values.  
-**Issue Type**: Runtime exception (NullPointerException).  
-**Notes**: The function does not check for null before calling `str.length()`, causing a crash if a null is present. Should skip nulls to avoid the exception.
- */
+// Bug 3 - Runtime exception (NullPointerException)
+// Intended behavior: compute average string length ignoring nulls.
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class bug3 {
-    
-    /**
-     * Calculates the average length of non-null strings in a list.
-     * 
-     * @param strings List of strings (may contain nulls)
-     * @return Average length of non-null strings
-     */
-    public static double calculateAverageLength(List<String> strings) {
-        int totalLength = 0;
+public class AverageStringLength {
+    public static double averageLength(List<String> items) {
+        int total = 0;
         int count = 0;
-        
-        for (String str : strings) {
-            // Bug: No null check before calling length()
-                if (str == null) continue;
-                totalLength += str.length();
-            count++;
+
+        for (String str : items) {
+            // BUG: str may be null; calling length() can throw NullPointerException
+            total += str.length();
+            count += 1;
         }
-        
-        return count > 0 ? (double) totalLength / count : 0.0;
+
+        if (count == 0) return 0.0;
+        return (double) total / count;
     }
-    
+
     public static void main(String[] args) {
-        List<String> words = new ArrayList<>();
-        words.add("hello");
-        words.add("world");
-        words.add(null);  // This will cause NullPointerException
-        words.add("test");
-        System.out.println("Average length: " + calculateAverageLength(words));
+        List<String> items = Arrays.asList("hi", null, "world");
+        System.out.println(averageLength(items));
     }
 }
