@@ -8,9 +8,10 @@ from typing import List, Optional, Tuple
 
 def first_consecutive_pair(nums: List[int], target: int) -> Optional[Tuple[int, int]]:
     for i in range(len(nums) - 1):
-        if nums[i] + nums[i + 1] == target:
-            return (nums[i], nums[i + 1])
-    return None
+            if nums[i] + nums[i + 1] == target:
+                return (nums[i], nums[i + 1]) 
+            i += 1  # FIX: always increment i
+        return None
 
 
 if __name__ == "__main__":
